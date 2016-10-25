@@ -1,29 +1,15 @@
-# Copyright (c) 2016 Baidu, Inc. All Rights Reserved
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 from paddle.trainer_config_helpers import *
 
 is_predict = get_config_arg("is_predict", bool, False)
 
 ####################Data Configuration ##################
 if not is_predict:
-  data_dir='data/cifar-out/batches/'
+  data_dir='data/batches/'
   meta_path=data_dir+'batches.meta'
 
-  args = {'meta':meta_path,'mean_img_size': 32,
-          'img_size': 32,'num_classes': 10,
-          'use_jpeg': 1,'color': "color"}
+  args = {'meta':meta_path,'mean_img_size': 28,
+          'img_size': 28,'num_classes': 10,
+          'use_jpeg': 1,'color': 0}
 
   define_py_data_sources2(train_list=data_dir+"train.list",
                           test_list=data_dir+'test.list',
@@ -40,13 +26,13 @@ settings(
 )
 
 #######################Network Configuration #############
-data_size=3*32*32
+data_size=1*28*28
 label_size=10
 img = data_layer(name='image',
                  size=data_size)
 # small_vgg is predined in trainer_config_helpers.network
 predict = small_vgg(input_image=img,
-                    num_channels=3,
+                    num_channels=1,
                     num_classes=label_size)
 
 if not is_predict:
@@ -54,3 +40,4 @@ if not is_predict:
     outputs(classification_cost(input=predict, label=lbl))
 else:
     outputs(predict)
+

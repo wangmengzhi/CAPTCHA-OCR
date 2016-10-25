@@ -1,17 +1,3 @@
-# Copyright (c) 2016 Baidu, Inc. All Rights Reserved
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import io
 import random
 
@@ -20,13 +6,13 @@ from paddle.trainer.PyDataProvider2 import *
 
 
 #
-# {'img_size': 32,
+# {'img_size': 28,
 # 'settings': <paddle.trainer.PyDataProviderWrapper.Cls instance at 0x7fea27cb6050>,
-# 'color': True,
-# 'mean_img_size': 32,
-# 'meta': './data/cifar-out/batches/batches.meta',
+# 'color': False,
+# 'mean_img_size': 28,
+# 'meta': './data/batches/batches.meta',
 # 'num_classes': 10,
-# 'file_list': ('./data/cifar-out/batches/train_batch_000',),
+# 'file_list': ('./data/batches/train_batch_000',),
 # 'use_jpeg': True}
 def hook(settings, img_size, mean_img_size, num_classes, color, meta, use_jpeg,
          is_train, **kwargs):

@@ -1,17 +1,3 @@
-# Copyright (c) 2016 Baidu, Inc. All Rights Reserved
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import numpy as np
 from PIL import Image
 from cStringIO import StringIO
@@ -38,7 +24,7 @@ def flip(im):
     else:
         return im[:, ::-1]
 
-def crop_img(im, inner_size, color=True, test=True):
+def crop_img(im, inner_size, color=False, test=True):
     """
     Return cropped image.
     The size of the cropped image is inner_size * inner_size.
@@ -85,7 +71,7 @@ def decode_jpeg(jpeg_string):
         np_array = np.transpose(np_array, (2, 0, 1))
     return np_array
 
-def preprocess_img(im, img_mean, crop_size, is_train, color=True):
+def preprocess_img(im, img_mean, crop_size, is_train, color=False):
     """
     Does data augmentation for images.
     If is_train is false, cropping the center region from the image.
@@ -99,7 +85,7 @@ def preprocess_img(im, img_mean, crop_size, is_train, color=True):
     pic -= img_mean
     return pic.flatten()
 
-def load_meta(meta_path, mean_img_size, crop_size, color=True):
+def load_meta(meta_path, mean_img_size, crop_size, color=False):
     """
     Return the loaded meta file.
     Load the meta image, which is the mean of the images in the dataset.
@@ -120,7 +106,7 @@ def load_meta(meta_path, mean_img_size, crop_size, color=True):
                     border: border + crop_size].astype('float32')
     return mean
 
-def load_image(img_path, is_color=True):
+def load_image(img_path, is_color=False):
     """
     Load image and return. 
     img_path: image path.

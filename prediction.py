@@ -1,17 +1,3 @@
-# Copyright (c) 2016 Baidu, Inc. All Rights Reserved
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import os,sys
 import numpy as np
 import logging
@@ -36,7 +22,7 @@ class ImageClassifier():
                  crop_dim=None,
                  mean_file=None,
                  oversample=False,
-                 is_color=True):
+                 is_color=False):
         """
         train_conf: network configure.
         model_dir: string, directory of model.
@@ -63,7 +49,7 @@ class ImageClassifier():
 
         self.mean_file = mean_file
         mean = np.load(self.mean_file)['data_mean']
-        mean = mean.reshape(3, self.crop_dims[0], self.crop_dims[1])
+        mean = mean.reshape(1, self.crop_dims[0], self.crop_dims[1])
         self.transformer.set_mean(mean) # mean pixel
         gpu = 1 if use_gpu else 0
         conf_args = "is_test=1,use_gpu=%d,is_predict=1" % (gpu)
@@ -73,7 +59,7 @@ class ImageClassifier():
         assert isinstance(self.network, swig_paddle.GradientMachine)
         self.network.loadParameters(self.model_dir)
 
-        data_size = 3 * self.crop_dims[0] * self.crop_dims[1]
+        data_size = 1 * self.crop_dims[0] * self.crop_dims[1]
         slots = [dense_vector(data_size)]
         self.converter = DataProviderConverter(slots)
 
@@ -90,13 +76,13 @@ class ImageClassifier():
             # image_util.resize_image: short side is self.resize_dim
             image = image_util.resize_image(image, self.resize_dim)
             image = np.array(image)
-            input = np.zeros((1, image.shape[0], image.shape[1], 3),
+            input = np.zeros((1, image.shape[0], image.shape[1],1),
                              dtype=np.float32)
-            input[0] = image.astype(np.float32)
+            #input[0] = image.astype(np.float32)
             input = image_util.oversample(input, self.crop_dims)
         else:
             image = image.resize(self.crop_dims, Image.ANTIALIAS)
-            input = np.zeros((1, self.crop_dims[0], self.crop_dims[1], 3),
+            input = np.zeros((1, self.crop_dims[0], self.crop_dims[1]),
                              dtype=np.float32)
             input[0] = np.array(image).astype(np.float32)
 
@@ -134,12 +120,12 @@ class ImageClassifier():
         logging.info("Label of %s is: %d", image, lab[0])
 
 if __name__ == '__main__':
-    image_size=32
-    crop_size=32
+    image_size=28
+    crop_size=28
     multi_crop=True
-    config="vgg_16_cifar.py"
+    config="vgg_16_captcha.py"
     output_layer="__fc_layer_1__"
-    mean_path="data/cifar-out/batches/batches.meta"
+    mean_path="data/batches/batches.meta"
     model_path=sys.argv[1]
     image=sys.argv[2]
     use_gpu=bool(int(sys.argv[3]))
