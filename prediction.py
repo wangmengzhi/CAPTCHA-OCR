@@ -78,13 +78,24 @@ class ImageClassifier():
             image = np.array(image)
             input = np.zeros((1, image.shape[0], image.shape[1],1),
                              dtype=np.float32)
-            #input[0] = image.astype(np.float32)
+	    if self.is_color:
+            	input[0] = image.astype(np.float32)
+	    else:
+	    	for i in range(0,self.resize_dim):
+		    for j in range(0,self.resize_dim):
+		        input[0][i][j][0]=image[i][j]
             input = image_util.oversample(input, self.crop_dims)
         else:
             image = image.resize(self.crop_dims, Image.ANTIALIAS)
-            input = np.zeros((1, self.crop_dims[0], self.crop_dims[1]),
+	    image = np.array(image)
+            input = np.zeros((1, self.crop_dims[0], self.crop_dims[1],1),
                              dtype=np.float32)
-            input[0] = np.array(image).astype(np.float32)
+	    if self.is_color:
+            	input[0] = image.astype(np.float32)
+	    else:
+	    	for i in range(0,self.resize_dim):
+		    for j in range(0,self.resize_dim):
+		        input[0][i][j][0]=image[i][j]
 
         data_in = []
         for img in input:
@@ -122,7 +133,7 @@ class ImageClassifier():
 if __name__ == '__main__':
     image_size=28
     crop_size=28
-    multi_crop=True
+    multi_crop=0
     config="vgg_16_captcha.py"
     output_layer="__fc_layer_1__"
     mean_path="data/batches/batches.meta"
