@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 # 网络配置文件
-# created by wmz
 # copyright USTC
 # 2017-02-14
 
