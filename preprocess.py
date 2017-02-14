@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 # 样本预处理文件
-# created by wmz
 # copyright USTC
 # 2017-02-14
 
