@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 # 主程序
-# created by wmz
 # copyright USTC
 # 2017-02-14
 
