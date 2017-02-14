@@ -5,7 +5,7 @@ import os
 #url='https://sso.le.com/verify'
 #url='http://passport.csdn.net/ajax/verifyhandler.ashx'
 url='http://yjs.ustc.edu.cn/checkcode.asp'
-output_path = 'captcha/yjs/'
+output_path = 'captchas/yjs/'
 if not(os.path.exists(output_path)):
     os.makedirs(output_path)
 urllib.URLopener.version = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:51.0) Gecko/20100101 Firefox/51.0'
