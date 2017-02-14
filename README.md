@@ -1,39 +1,39 @@
 # CAPTCHA-OCR
-Í¼ÏñÑéÖ¤Âë×Ô¶¯Ê¶±ğÏµÍ³
+å›¾åƒéªŒè¯ç è‡ªåŠ¨è¯†åˆ«ç³»ç»Ÿ
 
 #
-# ¿ª·¢×¼±¸
+# å¼€å‘å‡†å¤‡
 
 
 * ubuntu 14.04
 
-## ´î½¨»·¾³
+## æ­å»ºç¯å¢ƒ
 
 
-### °²×°PaddlePaddle
+### å®‰è£…PaddlePaddle
 
 
 * http://www.paddlepaddle.org/doc_cn/build_and_install/install/ubuntu_install.html
 
 
-### °²×°tesseract
+### å®‰è£…tesseract
 ```
 
 sudo apt-get install tesseract-ocr
 ```
-### °²×°pytesseract
+### å®‰è£…pytesseract
 ```
 sudo pip install pytesseract
 ```
-### °²×°pyqt4
+### å®‰è£…pyqt4
 ```
 sudo apt-get install libxext6 libxext-dev libqt4-dev libqt4-gui libqt4-sql qt4-dev-tools qt4-doc qt4-designer qt4-qtconfig "python-qt4-*" python-qt4
 ```
-### °²×°selenium
+### å®‰è£…selenium
 ```
 pip install selenium
 ```
-### ÏÂÔØÏîÄ¿
+### ä¸‹è½½é¡¹ç›®
 
 ```
 
@@ -45,7 +45,7 @@ cd CAPTCHA-OCR
 
 
 
-### °ÑÑù±¾×ªÎªPaddle¸ñÊ½
+### æŠŠæ ·æœ¬è½¬ä¸ºPaddleæ ¼å¼
 
 ```
 
@@ -53,16 +53,17 @@ python preprocess.py
 ```
 
 
-### ÑµÁ·
+### è®­ç»ƒ
 
 ```
 
 sh train.sh
 ```
 
-### ÅäÖÃtesseract
-* ½«captchaºÍcaptcha_digits¿½±´µ½/usr/share/tesseract-ocr/tessdata/configs/
-### ÔËĞĞ
+### é…ç½®tesseract
+* å°†captchaå’Œcaptcha_digitsæ‹·è´åˆ°/usr/share/tesseract-ocr/tessdata/configs/
+
+### è¿è¡Œ
 ```
 python test.py
 ```
