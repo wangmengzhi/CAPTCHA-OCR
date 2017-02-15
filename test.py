@@ -253,15 +253,19 @@ class Ui(QtGui.QDialog):
         self.ui.lb_cap.setPixmap(QtGui.QPixmap(self.output_path + 'backup.png'))
 
     def denoise(self):
-        self.bak = self.img.copy()
         if str(self.ui.cb_dm.currentText()) == '去小点':
+            height,width = self.img.shape[0:2]
+            #增加长宽，否则无法检测边缘连通域
+            t = np.zeros((height+2,width+2),dtype=np.uint8)
+            t[1:height+1,1:width+1]=self.img
+            self.bak=t.copy()
             #cv2.findContours会修改原图，cv2.RETR_LIST检测的轮廓不建立等级关系
-            contours, hierarchy = cv2.findContours(self.img,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+            contours, hierarchy = cv2.findContours(t,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
             for i in range(len(contours)):
                 if cv2.contourArea(contours[i]) < int(self.ui.le_dt.text()):
                     #0表示画黑色，-1表示填充，若为正数表示轮廓粗细
                     cv2.drawContours(self.bak,contours,i,0,-1)
-            self.img = self.bak.copy()
+            self.img = self.bak[1:height+1,1:width+1]
             cv2.imwrite(self.output_path + 'denoise.png', self.img)
             self.ui.lb_cap.setPixmap(QtGui.QPixmap(self.output_path + "denoise.png"))
             return
@@ -345,12 +349,18 @@ class Ui(QtGui.QDialog):
         self.bak = self.img.copy()
         #cv2.RETR_EXTERNAL表示只检测外轮廓
         contours, hierarchy = cv2.findContours(self.img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+        if len(contours)==0:
+            return None
+        height,x = self.img.shape
+        #找最左连通域
         for i in range(len(contours)):
-            x,y,w,h = cv2.boundingRect(contours[i])
-            img=self.bak[y-1:y+h+1, x:x+w]
-            self.img = self.bak.copy()
-            self.img[y-1:y+h+1,x:x+w]=0
-            return img
+            a,b,c,d=cv2.boundingRect(contours[i])
+            if a<x:
+                x,y,w,h = a,b,c,d
+        img=self.bak[y-1:y+h+1, x:x+w]
+        self.img = self.bak.copy()
+        self.img[y-1:y+h+1,x:x+w]=0
+        return img
             #rect = cv2.minAreaRect(contours[i])
             #box = cv2.cv.BoxPoints(rect)
             #box = np.int0(box)
