@@ -5,9 +5,12 @@
 
 import io
 import random
+import numpy as np
+from PIL import Image
 
 import paddle.utils.image_util as image_util
 from paddle.trainer.PyDataProvider2 import *
+from paddle.utils import preprocess_util
 
 @provider(input_types=[
     dense_vector(28 * 28),
@@ -34,3 +37,21 @@ def processData(settings, file_name):
 	    执行到 yield时，processData 函数就返回一个迭代值，下次迭代时，代码从 yield的下一条语句继续执行
 	    '''
         yield img.flatten().tolist(), int(label)
+
+@provider(input_types=[
+    dense_vector(28 * 28),
+    integer_value(62)
+])
+def processOne(settings, file_name):
+    label_set = preprocess_util.get_label_set_from_dir('data/test')
+    file = open(file_name)
+    c=file.read()
+    file.close()
+    if c>='A' and c<='Z':
+        c=str(ord(c)-ord('A')+10)
+    elif c>='a' and c<='z':
+        c=str(ord(c)-ord('a')+36)
+    img = np.array(Image.open('temp/current.png'))
+    data = img.flatten().tolist()
+    for i in range(128):
+        yield data, label_set[c]
