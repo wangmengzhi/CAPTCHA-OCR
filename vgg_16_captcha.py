@@ -6,13 +6,21 @@
 from paddle.trainer_config_helpers import *
 
 is_predict = get_config_arg("is_predict", bool, False)
+trainone = get_config_arg("trainone", bool, False)
 
 if not is_predict:
-    define_py_data_sources2(
-        train_list='data/batches/train.list',
-        test_list='data/batches/test.list',
-        module='image_provider',
-        obj='processData')
+    if trainone:
+        define_py_data_sources2(
+            train_list='train.list',
+            test_list=None,
+            module='image_provider',
+            obj='processOne')
+    else:
+        define_py_data_sources2(
+            train_list='data/batches/train.list',
+            test_list='data/batches/test.list',
+            module='image_provider',
+            obj='processData')
 
 settings(
     batch_size = 128,
