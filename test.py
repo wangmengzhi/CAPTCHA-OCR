@@ -37,7 +37,7 @@ if platform.system()=="Linux":
     print conf.data_config.load_data_args
     swig_paddle.initPaddle("--use_gpu=0")
     network = swig_paddle.GradientMachine.createFromConfigProto(conf.model_config)
-    network.loadParameters("captcha_vgg_model/pass-00009/")
+    network.loadParameters("captcha_vgg_model/pass-00000/")
     converter = DataProviderConverter([dense_vector(28*28)])
 
 # Paddle图像预测接口
@@ -51,6 +51,7 @@ def predict(image=None):
     network.forwardTest(inArg)
     output = network.getLayerOutputs("__fc_layer_1__")
     return output["__fc_layer_1__"][0]
+
 
 # 显示图片
 # name：标题
@@ -435,8 +436,8 @@ class Ui(QtGui.QDialog):
                 self.vresult+=str(c)
                 print '标签：'+str(c)
                 print '概率：'+str(prob[lab[0]])
-        self.ui.lb_tess.setText(u'tesseract识别结果：' + self.tresult)
-        self.ui.lb_vgg.setText(u'vgg识别结果：' + self.vresult)
+        self.ui.lb_tess.setText(u'tesseract：' + self.tresult)
+        self.ui.lb_vgg.setText(u'vgg：' + self.vresult)
         if str(self.ui.cb_engine.currentText())=='tesseract':
             self.ui.le_result.setText(self.tresult)
         else:
@@ -524,6 +525,21 @@ class Ui(QtGui.QDialog):
         if platform.system()=="Windows" and str(s)=='vgg':
             QtGui.QMessageBox.information(self,u"错误",u'vgg引擎暂不支持Windows系统')
             self.ui.cb_engine.setCurrentIndex(0)
+    
+    def train(self):
+        if platform.system()=="Windows":
+            QtGui.QMessageBox.information(self,u"错误",u'本功能暂不支持Windows系统')
+            return
+        s=str(self.ui.le_label.text())
+        if len(s)==1 and s.isalnum():
+            file = open('label.txt', 'w')
+            file.write(s)
+            file.close()
+            output = os.popen('sh trainone.sh')
+            print output.read()
+            network.loadParameters("captcha_vgg_model/pass-00000/")
+        else:
+            QtGui.QMessageBox.information(self,u"错误",u'请输入正确的标签！')
 
 app = QtGui.QApplication(sys.argv)
 window = Ui()
