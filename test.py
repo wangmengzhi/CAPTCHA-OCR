@@ -31,7 +31,6 @@ if platform.system()=="Linux":
     from paddle.utils import preprocess_util
 
     label_set = preprocess_util.get_label_set_from_dir('data/test')
-
     #初始化网络
     conf = parse_config("vgg_16_captcha.py", "is_predict=1")
     print conf.data_config.load_data_args
@@ -86,6 +85,7 @@ class Ui(QtGui.QDialog):
     current = -1#当前本地图片的序号
     img = None
     bak = None
+    lastimg=None
     tresult = ''#tesseract结果
     vresult = ''#vgg结果
     mode = 0
@@ -172,18 +172,14 @@ class Ui(QtGui.QDialog):
         self.ui.lb_cap.setPixmap(QtGui.QPixmap(self.output_path + "zoom.png"))
 
     def last(self):
-        if not self.ui.rb_lc.isChecked():
-            QtGui.QMessageBox.information(self,u"错误",u"本功能仅在读取本地图片时可用！")
-            return
-        if(self.current < 1):
+        if self.lastimg is None:
             QtGui.QMessageBox.information(self,u"错误",u"已经是第一张图片！")
             return
         self.tresult = self.vresult = ''
         self.current-=1
         self.bak = self.img.copy()
-        path=str(self.ui.le_lc.text() + '/' + self.files[self.current])
-        self.img = cv2.imread(path)
-        self.ui.lb_cap.setPixmap(QtGui.QPixmap(path))
+        self.img = self.lastimg.copy()
+        self.ui.lb_cap.setPixmap(QtGui.QPixmap(self.output_path + 'last.png'))
 
     def next(self):
         self.tresult = self.vresult = ''
@@ -200,6 +196,11 @@ class Ui(QtGui.QDialog):
                 QtGui.QMessageBox.information(self,u"错误",u"已经是最后一张图片！")
                 return
             path=str(self.ui.le_lc.text() + '/' + self.files[self.current])
+        if self.img is not None:
+            if os.path.isfile(self.output_path + 'last.png'):
+                os.remove(self.output_path + 'last.png')
+            os.rename(self.output_path + 'captcha.png',self.output_path + 'last.png')
+            self.lastimg=cv2.imread(self.output_path + 'last.png')
         self.img = cv2.imread(path)
         cv2.imwrite(self.output_path + 'captcha.png', self.img)
         self.ui.lb_cap.setPixmap(QtGui.QPixmap(self.output_path + 'captcha.png'))
