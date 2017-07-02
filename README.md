@@ -1,39 +1,83 @@
 # CAPTCHA-OCR
-å›¾åƒéªŒè¯ç è‡ªåŠ¨è¯†åˆ«ç³»ç»Ÿ
+Í¼ÏñÑéÖ¤Âë×Ô¶¯Ê¶±ğÏµÍ³
 
 #
-# å¼€å‘å‡†å¤‡
+# ¿ª·¢×¼±¸
 
 
 * ubuntu 14.04
 
-## æ­å»ºç¯å¢ƒ
+## ´î½¨»·¾³
 
 
-### å®‰è£…PaddlePaddle
+### °²×°OpenCV
+```
+sudo apt-get install libcv-dev
+```
+
+
+### °²×°PaddlePaddle
 
 
 * http://www.paddlepaddle.org/doc_cn/build_and_install/install/ubuntu_install.html
 
 
-### å®‰è£…tesseract
+### °²×°CUDA
+```
+wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb
+sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
+sudo apt-get update
+sudo apt-get install cuda
+```
+
+### °²×°cuDNN
+
+
+*
+https://developer.nvidia.com/cudnn
+
+
+
+### °²×°MxNet
+
+ÏÂÔØmxnet
+```
+git clone --recursive https://github.com/dmlc/mxnet
+```
+½«mxnet/make/config.mk¸´ÖÆµ½mxnet/£¬ĞŞ¸ÄÒÔÏÂ¼¸ĞĞ£º
+```
+USE_CUDA = 1
+USE_CUDA_PATH = /usr/local/cuda
+```
+ÔÚmxnet/Ä¿Â¼ÏÂ±àÒë
+```
+make -j4
+```
+°²×°pythonÖ§³Ö
+```
+cd python
+python setup.py install
+```
+
+
+### °²×°tesseract
 ```
 
 sudo apt-get install tesseract-ocr
 ```
-### å®‰è£…pytesseract
+### °²×°pytesseract
 ```
 sudo pip install pytesseract
 ```
-### å®‰è£…pyqt4
+### °²×°pyqt4
 ```
 sudo apt-get install libxext6 libxext-dev libqt4-dev libqt4-gui libqt4-sql qt4-dev-tools qt4-doc qt4-designer qt4-qtconfig "python-qt4-*" python-qt4
 ```
-### å®‰è£…selenium
+### °²×°selenium
 ```
 pip install selenium
 ```
-### ä¸‹è½½é¡¹ç›®
+### ÏÂÔØÏîÄ¿
 
 ```
 
@@ -45,7 +89,7 @@ cd CAPTCHA-OCR
 
 
 
-### æŠŠæ ·æœ¬è½¬ä¸ºPaddleæ ¼å¼
+### °ÑÑù±¾×ªÎªPaddle¸ñÊ½
 
 ```
 
@@ -53,17 +97,17 @@ python preprocess.py
 ```
 
 
-### è®­ç»ƒ
+### ÑµÁ·
 
 ```
 
 sh train.sh
 ```
 
-### é…ç½®tesseract
-* å°†captchaå’Œcaptcha_digitsæ‹·è´åˆ°/usr/share/tesseract-ocr/tessdata/configs/
+### ÅäÖÃtesseract
+* ½«captchaºÍcaptcha_digits¿½±´µ½/usr/share/tesseract-ocr/tessdata/configs/
 
-### è¿è¡Œ
+### ÔËĞĞ
 ```
-python test.py
+python CAPTCHA-OCR.py
 ```
