@@ -83,7 +83,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>210</y>
+      <y>230</y>
       <width>721</width>
       <height>61</height>
      </rect>
@@ -161,9 +161,9 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>280</y>
+      <y>300</y>
       <width>721</width>
-      <height>211</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="title">
@@ -421,7 +421,7 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>40</y>
+       <y>30</y>
        <width>161</width>
        <height>21</height>
       </rect>
@@ -434,7 +434,7 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>70</y>
+       <y>60</y>
        <width>161</width>
        <height>21</height>
       </rect>
@@ -466,6 +466,19 @@
       <string>训练</string>
      </property>
     </widget>
+    <widget class="QLabel" name="lb_lenet">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>90</y>
+       <width>161</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>LeNet:</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -473,7 +486,7 @@
       <x>40</x>
       <y>500</y>
       <width>721</width>
-      <height>81</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="title">
@@ -485,7 +498,7 @@
        <x>30</x>
        <y>30</y>
        <width>71</width>
-       <height>41</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -496,7 +509,7 @@
      <property name="geometry">
       <rect>
        <x>310</x>
-       <y>40</y>
+       <y>30</y>
        <width>51</width>
        <height>31</height>
       </rect>
@@ -509,7 +522,7 @@
      <property name="geometry">
       <rect>
        <x>110</x>
-       <y>40</y>
+       <y>30</y>
        <width>191</width>
        <height>31</height>
       </rect>
@@ -519,7 +532,7 @@
      <property name="geometry">
       <rect>
        <x>370</x>
-       <y>40</y>
+       <y>30</y>
        <width>211</width>
        <height>31</height>
       </rect>
@@ -532,7 +545,7 @@
      <property name="geometry">
       <rect>
        <x>600</x>
-       <y>40</y>
+       <y>30</y>
        <width>92</width>
        <height>31</height>
       </rect>
@@ -614,7 +627,22 @@
     </item>
     <item>
      <property name="text">
-      <string>vgg</string>
+      <string>mxnet</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>paddle</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>四字符</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>变长</string>
      </property>
     </item>
    </widget>
@@ -655,7 +683,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>180</y>
+      <y>200</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -668,7 +696,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>180</y>
+      <y>200</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -693,7 +721,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>180</y>
+      <y>200</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -706,10 +734,23 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>180</y>
+      <y>200</y>
       <width>113</width>
       <height>31</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="rb_cam">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>170</y>
+      <width>112</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>摄像头</string>
     </property>
    </widget>
   </widget>
@@ -1069,6 +1110,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rb_cam</sender>
+   <signal>clicked()</signal>
+   <receiver>mainWindow</receiver>
+   <slot>cam()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>178</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>27</x>
+     <y>163</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>rec()</slot>
@@ -1093,5 +1150,6 @@
   <slot>engine()</slot>
   <slot>zoom()</slot>
   <slot>train()</slot>
+  <slot>cam()</slot>
  </slots>
 </ui>
